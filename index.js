@@ -5,7 +5,7 @@ const libraryRouter = require("./routes/library-router.js");
 
 const mongoose = require("mongoose");
 const { mongoDBConnection } = require("./db/db.connect.js");
-
+const PORT = process.env.PORT || 5000;
 const app = express();
 var cors = require("cors");
 app.use(cors());
@@ -31,6 +31,6 @@ app.use((err, req, res) => {
   res.status(500).send("Something broke");
 });
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("server started");
 });

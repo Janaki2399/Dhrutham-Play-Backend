@@ -2,6 +2,7 @@ const express = require("express");
 const videoRouter = require("./routes/video-router.js");
 const categoryRouter = require("./routes/category-router.js");
 const libraryRouter = require("./routes/library-router.js");
+const userRouter = require("./routes/user-router.js");
 
 const mongoose = require("mongoose");
 const { mongoDBConnection } = require("./db/db.connect.js");
@@ -17,6 +18,7 @@ mongoDBConnection();
 app.use("/videos", videoRouter);
 app.use("/categories", categoryRouter);
 app.use("/library", libraryRouter);
+app.use("/user", userRouter);
 
 app.get("/", (req, res) => {
   res.redirect("/categories");

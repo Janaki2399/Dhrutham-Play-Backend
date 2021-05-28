@@ -77,8 +77,9 @@ router
       const id = req.params.playlistId;
       let playlist = await Playlist.findById(id);
       playlist = _.extend(playlist, {
-        playlist: _.concat(Playlist.playlist, video._id),
+        playlist: _.concat(playlist.playlist, video._id),
       });
+
       const updated = await playlist.save();
       const populated = await updated
         .populate({ path: "playlist", populate: { path: "playlist" } })

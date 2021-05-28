@@ -103,7 +103,7 @@ router
 router
   .route("/:playlistId/:videoId")
   .get(async (req, res) => {
-    const playlistId = req.params.videoId;
+    const playlistId = req.params.playlistId;
     const videoId = req.params.videoId;
 
     const playlist = await Playlist.findById(playlistId);
@@ -120,9 +120,7 @@ router
 
     let playlist = await Playlist.findById(playlistId);
     playlist.playlist.pull({ _id: videoId });
-    const updated = await playlist.save();
-    const populated = await updated.populate("playlist").execPopulate();
-
+    await playlist.save();
     res.status(200).json({ success: true });
   });
 module.exports = router;

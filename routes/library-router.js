@@ -115,14 +115,14 @@ router
     res.status(200).json({ playlist: populatedPlaylist, video, success: true });
   })
   .delete(async (req, res) => {
-    const playlistId = req.params.videoId;
+    const playlistId = req.params.playlistId;
     const videoId = req.params.videoId;
 
     let playlist = await Playlist.findById(playlistId);
-    Playlist.playlist.pull({ _id: videoId });
+    playlist.playlist.pull({ _id: videoId });
     const updated = await playlist.save();
     const populated = await updated.populate("playlist").execPopulate();
 
-    res.status(200).json({ updated: populated });
+    res.status(200).json({ success: true });
   });
 module.exports = router;

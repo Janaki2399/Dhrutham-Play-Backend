@@ -6,7 +6,7 @@ const PlaylistSchema = new Schema({
     type: String,
     required: true,
   },
-  playlist: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+  list: [{ type: Schema.Types.ObjectId, ref: "Video" }],
 });
 const Playlist = mongoose.model("Playlist", PlaylistSchema);
 

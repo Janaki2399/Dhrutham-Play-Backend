@@ -23,7 +23,7 @@ router
   .get(async (req, res) => {
     const playlistId = req.params.playlistId;
     // console.log(id);
-    const playlist = await Playlist.findById(playlistId).populate("playlist");
+    const playlist = await Playlist.findById(playlistId).populate("list");
 
     res.json({ playlist, success: true });
   })
@@ -34,13 +34,11 @@ router
       const id = req.params.playlistId;
       let playlist = await Playlist.findById(id);
       playlist = _.extend(playlist, {
-        playlist: _.concat(playlist.playlist, video._id),
+        list: _.concat(playlist.list, video._id),
       });
 
       const updated = await playlist.save();
-      const populated = await updated
-        .populate({ path: "playlist" })
-        .execPopulate();
+      const populated = await updated.populate({ path: "list" }).execPopulate();
       res.status(200).json({ updated: populated });
     } catch (error) {
       res.status(500).json({
@@ -64,9 +62,7 @@ router
     const videoId = req.params.videoId;
 
     const playlist = await Playlist.findById(playlistId);
-    const populatedPlaylist = await playlist
-      .populate("playlist")
-      .execPopulate();
+    const populatedPlaylist = await playlist.populate("list").execPopulate();
     const video = await Video.findById(videoId);
 
     res.status(200).json({ playlist: populatedPlaylist, video, success: true });
@@ -76,7 +72,7 @@ router
     const videoId = req.params.videoId;
 
     let playlist = await Playlist.findById(playlistId);
-    playlist.playlist.pull({ _id: videoId });
+    playlist.list.pull({ _id: videoId });
     await playlist.save();
     res.status(200).json({ success: true });
   });

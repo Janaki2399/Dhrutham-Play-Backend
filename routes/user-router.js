@@ -25,6 +25,10 @@ router.post("/signup", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
+  let token = jwt.sign({ userId: user._id }, process.env.secret, {
+    expiresIn: "24h",
+  });
+  token = `Bearer ${token}`;
   const playlist = new Playlist({
     name: "Liked Videos",
     list: [],
@@ -35,11 +39,12 @@ router.post("/signup", async (req, res) => {
     list: { _id: playlist._id },
   });
   await library.save();
-  res.status(200).json({ success: true });
+  res.status(200).json({ success: true ,token});
 });
 
 router.post("/login", async (req, res) => {
   const body = req.body;
+  
   const user = await User.findOne({ email: body.email });
   if (user) {
     const validPassword = await bcrypt.compare(body.password, user.password);
@@ -48,7 +53,7 @@ router.post("/login", async (req, res) => {
         expiresIn: "24h",
       });
       token = `Bearer ${token}`;
-      console.log(token);
+    
       return res.status(200).json({ success: true, token });
     }
     return res

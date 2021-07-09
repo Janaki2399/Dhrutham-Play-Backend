@@ -24,7 +24,7 @@ router.route("/").get(async (req, res) => {
     const { userId } = req.user;
     const library = await Library.findOne({ userId }).populate({
       path: "list",
-      populate: { path: "list", select: "_id" },
+      populate: { path: "list", select: "_id youtubeId" },
     });
 
     res.status(200).json({ library, success: true });

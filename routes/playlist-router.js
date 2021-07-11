@@ -38,7 +38,12 @@ router
       });
 
       const updated = await playlist.save();
-      const populated = await updated.populate({ path: "list" }).execPopulate();
+      const populated = await updated
+        .populate({
+          path: "list",
+          select: "_id youtubeId",
+        })
+        .execPopulate();
       res.status(200).json({ updated: populated });
     } catch (error) {
       res.status(500).json({

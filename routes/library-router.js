@@ -49,7 +49,10 @@ router.post("/", async (req, res) => {
 
     const updated = await library.save();
     const populated = await updated
-      .populate({ path: "list", populate: { path: "list", select: "_id" } })
+      .populate({
+        path: "list",
+        populate: { path: "list", select: "_id youtubeId" },
+      })
       .execPopulate();
 
     res.status(200).json({ library: populated, success: true });

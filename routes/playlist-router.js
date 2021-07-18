@@ -44,7 +44,7 @@ router
           select: "_id youtubeId",
         })
         .execPopulate();
-      res.status(200).json({ updated: populated });
+      res.status(200).json({ updatedList: populated });
     } catch (error) {
       res.status(500).json({
         success: false,

@@ -22,14 +22,12 @@ router
   .route("/:playlistId")
   .get(async (req, res) => {
     const playlistId = req.params.playlistId;
-    // console.log(id);
     const playlist = await Playlist.findById(playlistId).populate("list");
 
     res.json({ playlist, success: true });
   })
   .post(async (req, res) => {
     try {
-      //create playlist if not created -TODO
       const video = req.body;
       const id = req.params.playlistId;
       let playlist = await Playlist.findById(id);
